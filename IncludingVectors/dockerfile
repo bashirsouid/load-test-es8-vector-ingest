@@ -1,0 +1,9 @@
+FROM artilleryio/artillery:latest
+
+WORKDIR /scripts
+
+COPY artillery-config.yml .
+COPY generate-random-data.js .
+
+ENTRYPOINT ["/home/node/artillery/bin/run", "run", "artillery-config.yml"]
+

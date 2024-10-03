@@ -1,0 +1,21 @@
+config:
+  target: "http://elasticsearch:9200"
+  phases:
+    - duration: 1
+      arrivalCount: 1
+  processor: "./generate-random-data.js"
+
+scenarios:
+  - name: "Insert documents into ElasticSearch"
+    flow:
+      - loop:
+          - function: "generateDocument"
+          - post:
+              url: "/test-including-vectors/_doc"
+              json:
+                field1: "{{ field1 }}"
+                field2: "{{ field2 }}"
+                field3: "{{ field3 }}"
+                content_vector: "{{ vector }}"
+        count: 10000
+

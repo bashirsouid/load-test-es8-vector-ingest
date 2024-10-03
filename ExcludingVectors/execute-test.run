@@ -1,0 +1,22 @@
+#!/bin/bash
+
+curl -XDELETE 'http://localhost:9200/test-baseline' -H 'Content-Type: application/json' -s -o /dev/null
+
+curl -X PUT "http://localhost:9200/test-baseline" -H 'Content-Type: application/json' -d'
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "field1": { "type": "text" },
+      "field2": { "type": "text" },
+      "field3": { "type": "text" }
+    }
+  }
+}'
+
+docker build -t test-baseline .
+docker run --rm --network my-network test-baseline
+
